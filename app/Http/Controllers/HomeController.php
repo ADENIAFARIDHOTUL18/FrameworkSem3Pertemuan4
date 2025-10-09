@@ -10,18 +10,12 @@ class HomeController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        // Menyiapkan data untuk dikirim ke view
-        $username = 'Adenia Faridhotul Musthofa';
-        $last_login = date('Y-m-d H:i:s');
-        $list_pendidikan = ['SD', 'SMP', 'SMA', 'S1', 'S2', 'S3'];
-
-        // Mengirim data ke view 'home' menggunakan compact()
-        // compact() secara otomatis membuat array asosiatif dari variabel
-        return view('home', compact('username', 'last_login', 'list_pendidikan'));
+    { $data ['username']        = 'Adenia Faridhotul';
+    $data ['last_login']      = date('Y-m-d H:i:s');
+    $data ['list_pendidikan'] = ['SD','SMP','SMA','S1','S2','S3'];
+    return view('simple-home', $data );
+        //
     }
-
-    // --- Metode lain bisa dibiarkan kosong, tidak akan error ---
 
     /**
      * Show the form for creating a new resource.
@@ -69,5 +63,27 @@ class HomeController extends Controller
     public function destroy(string $id)
     {
         //
+
     }
+      public function signup(Request $request)
+    {
+       $request->validate([
+		    'name'  => 'required|max:10',
+		    'email' => ['required','email'],
+		    'password' => [
+		        'required',           // Wajib diisi
+		        'string',             // Harus berupa string
+		        'min:8',              // Minimal 8 karakter
+		        'regex:/[a-z]/',      // Harus mengandung setidaknya 1 huruf kecil
+		        'regex:/[A-Z]/',      // Harus mengandung setidaknya 1 huruf besar
+		        'regex:/[0-9]/',      // Harus mengandung setidaknya 1 angka
+		    ],
+		]);
+      //dd($request->all());
+
+      $pageData['name']     = $request->name;
+      $pageData['email']    = $request->email;
+      $pageData['password'] = $request->password;
+      return view('signup-success', $pageData);
+  }
 }

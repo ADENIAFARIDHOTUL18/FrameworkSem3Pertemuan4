@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\AuthController;
 
 // Halaman default Laravel
 Route::get('/', function () {
@@ -39,5 +40,15 @@ Route::get('/mahasiswa/detail', function () {
 Route::get('/mahasiswa/profil', function () {
     return view('halaman-mahasiswa-profil');
 });
-
+Route::get('/home', [HomeController::class, 'index']);
 Route::get('/pegawai', [PegawaiController::class, 'index']);
+
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::post('/signup',[HomeController::class,'signup'])->name('home.signup');
+// Route untuk menampilkan halaman login
+
+// Route untuk halaman login
+Route::get('/auth', [AuthController::class, 'index']); // ke form login
+Route::post('/auth/proses-login', [AuthController::class, 'prosesLogin']); // proses form login
